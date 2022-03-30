@@ -1,14 +1,15 @@
 import { NextApiResponse, NextApiRequest } from "next"
-import { PrismaClient, User } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 import prisma from "../lib/prisma"
 import { getSession } from "next-auth/react"
+import { DefaultUser, User } from "next-auth"
 
 export type Context = {
   prisma: PrismaClient
   req: NextApiRequest
   res: NextApiResponse
-  // user: User | null
-  // email: string;
+  // user: DefaultUser | null
+  email: string | null
   // user: User;
 }
 // const user = await prisma.user.findUnique({
@@ -25,22 +26,19 @@ export async function createContext({
   // const user = await prisma.user.findUnique({
   //   where: { email: session.user.email },
   // })
-  const context: Context = {
-    ...req,
-    req: req,
-    res: res,
-    prisma: prisma,
-    // user: null,
+  return {
+    req,
+    res,
+    prisma,
+    email: session?.user?.email,
   }
-  // if (session) {
-  //   const user = await prisma.user.findFirst({
-  //     where: {
-  //       email: session.user.email,
-  //     },
-  //     rejectOnNotFound: true,
-  //   })
-  //   context.user = user
-  // }
-
-  return context
 }
+
+// export async function createContext({ req, res }): Promise<Context> {
+//   const { user, accessToken } = getSession(req, res);
+//   return {
+//     user,
+//     accessToken,
+//     prisma,
+//   };
+// }
