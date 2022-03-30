@@ -11,11 +11,11 @@ export const TaskMutaion = extendType({
         try {
           //   const req = ctx.req
           //   const session = await getSession({ req })
-          console.log(ctx.email)
-          if (ctx.email) {
+          console.log(ctx.session)
+          if (ctx.session) {
             return ctx.prisma.user.create({
               data: {
-                email: ctx.email,
+                email: ctx.session?.user?.email,
                 name: "Muneer",
                 image: "image",
               },
@@ -40,7 +40,7 @@ export const TaskMutaion = extendType({
             // const req = ctx.req
             // const session = await getSession({ req })
             // console.log({ session })
-            if (!ctx.email) {
+            if (!ctx.session) {
               throw new Error("no session found")
             }
             return ctx.prisma.task.create({
@@ -48,7 +48,7 @@ export const TaskMutaion = extendType({
                 title: args.title,
                 description: args.description,
                 status: args.status,
-                user: { connect: { email: ctx.email } },
+                user: { connect: { email: ctx.session?.user?.email } },
               },
             })
           } catch (error) {
