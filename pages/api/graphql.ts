@@ -3,7 +3,7 @@ import { NextApiRequest } from "next"
 import { ApolloServer } from "apollo-server-micro"
 
 import Cors from "micro-cors"
-import { createContext } from "../../graphql/context"
+import createContext from "../../graphql/context"
 import { schema } from "../../graphql/schema"
 
 const cors = Cors()

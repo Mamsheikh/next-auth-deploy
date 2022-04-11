@@ -1,3 +1,4 @@
+import { NextApiRequest } from "next"
 import { getSession } from "next-auth/react"
 import { extendType, stringArg } from "nexus"
 import { resolve } from "path"
@@ -37,6 +38,7 @@ export const TaskMutaion = extendType({
         },
         async resolve(_, args, ctx) {
           try {
+            let req: NextApiRequest
             // const req = ctx.req
             // const session = await getSession({ req })
             // console.log({ session })

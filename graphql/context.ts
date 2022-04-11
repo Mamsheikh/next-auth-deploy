@@ -15,7 +15,7 @@ export type Context = {
 // const user = await prisma.user.findUnique({
 //   where:{email:session.user.email}
 // })
-export async function createContext({
+export default async function createContext({
   req,
   res,
 }: {
@@ -26,6 +26,7 @@ export async function createContext({
   // const user = await prisma.user.findUnique({
   //   where: { email: session.user.email },
   // })
+  console.log("session mofuker", { session })
   const context: Context = {
     ...req,
     req: req,
