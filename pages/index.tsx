@@ -1,10 +1,11 @@
 import { gql, useMutation } from "@apollo/client"
+import { useSession } from "next-auth/react"
 import { useState } from "react"
 import Layout from "../components/layout"
 
 const CREATE_USER = gql`
-  mutation Mutation {
-    createTask {
+  mutation Mutation($email: String!) {
+    createTask(email: $email) {
       id
       name
       email
@@ -26,6 +27,7 @@ const CREATE_TASK = gql`
 `
 
 export default function IndexPage() {
+  const { data: session } = useSession()
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [status, setStatus] = useState("")
@@ -64,7 +66,11 @@ export default function IndexPage() {
         This is an example site to demonstrate how to use{" "}
         <a href="https://next-auth.js.org">NextAuth.js</a> for authentication.
       </p>
-      <button onClick={() => createTask()}>
+      <button
+        onClick={() =>
+          createTask({ variables: { email: session?.user?.email } })
+        }
+      >
         {loading ? <span>creating....</span> : <span>create user</span>}
       </button>
 

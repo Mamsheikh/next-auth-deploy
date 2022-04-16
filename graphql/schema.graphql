@@ -3,7 +3,7 @@
 
 
 type Mutation {
-  createTask: User
+  createTask(email: String!): User
   taskCreate(description: String, status: String, title: String): Task
 }
 

@@ -1,6 +1,6 @@
 import { NextApiRequest } from "next"
 import { getSession } from "next-auth/react"
-import { extendType, stringArg } from "nexus"
+import { extendType, nonNull, stringArg } from "nexus"
 import { resolve } from "path"
 
 export const TaskMutaion = extendType({
@@ -8,15 +8,19 @@ export const TaskMutaion = extendType({
   definition(t) {
     t.field("createTask", {
       type: "User",
+      args: {
+        email: nonNull(stringArg()),
+      },
       async resolve(_, args, ctx) {
         try {
           //   const req = ctx.req
           //   const session = await getSession({ req })
-          console.log(ctx.session)
+          console.log("creating user....")
+          // console.log("ctx.session", ctx.session)
           // if (ctx.session) {
           return ctx.prisma.user.create({
             data: {
-              email: ctx.session?.user?.email,
+              email: args.email,
               name: "Muneer",
               image: "image",
             },
